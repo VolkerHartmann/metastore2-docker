@@ -7,3 +7,4 @@
 /.settings/
 /config/
 **/application.properties
+**/*~

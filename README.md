@@ -1,54 +1,46 @@
-## :information_source: Required steps after creating a repository from this template :information_source:
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/kitdm/base-repo)
 
-* Replace all occurences of **template** in this file with your project name
-* Enable this project in coveralls in order to obtain code coverage reports
-* Add branch protection rules in project settings -> branches to require status checks, e.g. Travis Pull and Coveralls, and branches to be up to date for master branch
-* Fill in or remove sections of this README.md marked with TODO
-* Remove this section from README.md
+# Docker Configuration - base-repo
 
----
+This repository contains a the docker configuration files for the base-repo service of KIT DM 2.0 repository platform. It is build and hosted at [DockerHub](https://hub.docker.com/) and can be found under the namespace ***kitdm***. 
 
-# KIT Data Manager - template
+## Prerequisites
 
-![Build Status](https://img.shields.io/travis/kit-data-manager/template.svg)
-![Code Coverage](https://img.shields.io/coveralls/github/kit-data-manager/template.svg)
-![License](https://img.shields.io/github/license/kit-data-manager/template.svg)
+* docker (tested with 18.09.2)
 
-## How to build
+## Building and Startup
 
-In order to build this microservice you'll need:
+Typically, there is no need for locally building images as all version are accessible via [DockerHub](https://hub.docker.com/) ([kitdm/base-repo](https://hub.docker.com/r/kitdm/base-repo)).
 
-* OpenJDK 11 or higher
-
-After obtaining the sources change to the folder where the sources are located perform the following steps:
+Running for example a base-repo instance can be achieved as follows:
 
 ```
-user@localhost:/home/user/template$ ./gradlew -Pclean-release build
-> Configure project :
-Using release profile
-<-------------> 0% EXECUTING [0s]
+user@localhost:/home/user/$ docker run -p 8080:8080 kitdm/base-repo
 [...]
-user@localhost:/home/user/template$
+user@localhost:/home/user/$
 ```
 
-The Gradle wrapper will now take care of downloading the configured version of Gradle, checking out all required libraries, build these
-libraries and finally build the base-repo microservice itself. As a result, a fat jar containing the entire service is created at 'build/jars/base-repo.jar'.
+In some cases, you may want to change the configuration of the service instance. All service-specific configuration is located in each image at
 
-## How to start
+```/base-repo/conf/application.properties```
 
-TODO
+You can easily overwrite this file by creating an own Dockerfile, which looks as follows in case of the base-repo service:
 
-### Prerequisites
+```
+FROM kitdm/base-repo:latest
 
-TODO
+COPY application.properties /base-repo/config/application.properties
+```
 
-### Setup
+Afterwards, you have to build the modified image locally by calling:
 
-TODO
+```
+user@localhost:/home/user/my-base-repo/$ docker build .
+[...]
+user@localhost:/home/user/my-base-repo/$
+```
 
-## More Information
-
-TODO
+Now, you can start the container using your modified configuration.
 
 ## License
 
